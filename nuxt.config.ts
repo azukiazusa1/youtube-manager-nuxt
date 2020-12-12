@@ -49,7 +49,12 @@ const config = {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    baseURL: 'http://localhost:8080/'
+  },
+  proxy: {
+    '/api': '/'
+  },
   /*
    ** Build configuration
    */
