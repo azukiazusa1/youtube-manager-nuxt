@@ -1,0 +1,67 @@
+<template>
+  <div class="section">
+    <div class="columns">
+      <div class="column is-6">
+        <div class="block video-player">
+          <youtube ref="youtube" :video-id="this.$route.params.id" />
+        </div>
+
+        <div class="box">
+          <p>
+            <span class="title is-4">
+              {{ item.snippet.title }}
+            </span>
+          </p>
+
+          <div class="lavel">
+            <div class="lavel-left">
+              {{ item.snippet.channelTitle }}
+              <br />
+              {{ item.snippet.publishedAt }}
+            </div>
+          </div>
+
+          <hr />
+          <p>{{ item.snippet.description }}</p>
+        </div>
+      </div>
+
+      <div class="column is-4">
+        <div class="box">
+          <p>
+            <span>関連動画</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import ROUTES from '~/routes/api'
+
+export default Vue.extend({
+  async fetch({ store, route }) {
+    await store.dispatch('fetchVideo', {
+      uri: ROUTES.GET.VIDEO.replace(':id', route.params.id)
+    })
+  },
+  computed: {
+    item() {
+      return this.$store.getters.getVideo
+    }
+  }
+})
+</script>
+
+<style>
+iframe {
+  width: 100%;
+  height: 500px;
+}
+
+.video-player {
+  max-width: 880px !important;
+}
+</style>

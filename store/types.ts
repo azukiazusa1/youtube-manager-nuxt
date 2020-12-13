@@ -19,6 +19,7 @@ export interface Meta {
 
 export interface State {
   items: Item[]
+  item?: Item
   meta: Meta
 }
 
@@ -26,7 +27,7 @@ export interface Params {
   [key: string]: string
 }
 
-export interface FetchPopularVideosPayload {
+export interface FetchPayload {
   uri: string
   params?: Params
 }

@@ -22,7 +22,7 @@
 import Vue from 'vue'
 import ROUTES from '~/routes/api'
 import AppVideo from '~/components/AppVideo.vue'
-import { FetchPopularVideosPayload } from '~/store/types'
+import { FetchPayload } from '~/store/types'
 
 export default Vue.extend({
   components: {
@@ -30,7 +30,7 @@ export default Vue.extend({
   },
 
   async fetch({ store }) {
-    const payload: FetchPopularVideosPayload = {
+    const payload: FetchPayload = {
       uri: ROUTES.GET.POPULARS
     }
 
@@ -55,7 +55,7 @@ export default Vue.extend({
 
   methods: {
     loadMore() {
-      const payload: FetchPopularVideosPayload = {
+      const payload: FetchPayload = {
         uri: ROUTES.GET.POPULARS,
         params: {
           pageToken: this.nextPageToken

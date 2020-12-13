@@ -1,5 +1,5 @@
 import { NuxtAxiosInstance } from '@nuxtjs/axios'
-import { Meta, Params } from '~/store/types'
+import { Params } from '~/store/types'
 
 export class RequestClient {
   public axios: NuxtAxiosInstance
@@ -13,7 +13,7 @@ export class RequestClient {
       .map((key) => `${key}=${params[key]}`)
       .join('&')
     const query = queryString.length > 0 ? `${uri}?${queryString}` : uri
-    return await this.axios.$get<Meta>(query)
+    return await this.axios.$get(query)
   }
 }
 
