@@ -4,6 +4,7 @@ import { FetchPayload, State, RootState, Meta } from '~/store/types'
 
 export const state = (): State => ({
   items: [],
+  relatedItems: [],
   item: undefined,
   meta: {}
 })
@@ -22,6 +23,12 @@ export const actions: ActionTree<State, RootState> = {
       ...res.video_list
     }
     commit('mutateVideo', params)
+  },
+
+  async fetchRelatedVideos({ commit }, payload: FetchPayload) {
+    const client = createRequestClient(this.$axios)
+    const res = await client.get(payload.uri)
+    commit('mutateRelatedVideos', res)
   }
 }
 
@@ -35,6 +42,10 @@ export const mutations: MutationTree<State> = {
     const params =
       payload.items && payload.items.length > 0 ? payload.items[0] : undefined
     state.item = params
+  },
+
+  mutateRelatedVideos(state, payload: Meta) {
+    state.relatedItems = payload.items || []
   }
 }
 
@@ -47,5 +58,8 @@ export const getters: GetterTree<State, RootState> = {
   },
   getVideo(state) {
     return state.item
+  },
+  getRelatedVideos(state) {
+    return state.relatedItems
   }
 }

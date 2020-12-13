@@ -19,6 +19,7 @@ export interface Meta {
 
 export interface State {
   items: Item[]
+  relatedItems: Item[]
   item?: Item
   meta: Meta
 }
