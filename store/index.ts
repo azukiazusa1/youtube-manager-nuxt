@@ -30,5 +30,8 @@ export const mutations: MutationTree<State> = {
 export const getters: GetterTree<State, RootState> = {
   getPopularVideos(state) {
     return state.items
+  },
+  getMeta(state) {
+    return state.meta
   }
 }

@@ -6,6 +6,14 @@
           <app-video :item="item" :video-id="item.id" />
         </div>
       </div>
+
+      <div class="block">
+        <nav class="pagination">
+          <a href.prevent="#" class="pagination-next" @click="loadMore">
+            More
+          </a>
+        </nav>
+      </div>
     </div>
   </section>
 </template>
@@ -14,6 +22,7 @@
 import Vue from 'vue'
 import ROUTES from '~/routes/api'
 import AppVideo from '~/components/AppVideo.vue'
+import { FetchPopularVideosPayload } from '~/store/types'
 
 export default Vue.extend({
   components: {
@@ -21,7 +30,7 @@ export default Vue.extend({
   },
 
   async fetch({ store }) {
-    const payload = {
+    const payload: FetchPopularVideosPayload = {
       uri: ROUTES.GET.POPULARS
     }
 
@@ -38,6 +47,21 @@ export default Vue.extend({
   computed: {
     items() {
       return this.$store.getters.getPopularVideos
+    },
+    nextPageToken() {
+      return this.$store.getters.getMeta.nextPageToken
+    }
+  },
+
+  methods: {
+    loadMore() {
+      const payload: FetchPopularVideosPayload = {
+        uri: ROUTES.GET.POPULARS,
+        params: {
+          pageToken: this.nextPageToken
+        }
+      }
+      this.$store.dispatch('fetchPopularVideos', payload)
     }
   }
 })

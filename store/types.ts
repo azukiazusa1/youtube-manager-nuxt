@@ -22,9 +22,13 @@ export interface State {
   meta: Meta
 }
 
+export interface Params {
+  [key: string]: string
+}
+
 export interface FetchPopularVideosPayload {
   uri: string
-  params?: {}
+  params?: Params
 }
 
 export interface RootState {}
