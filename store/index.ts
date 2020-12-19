@@ -6,7 +6,7 @@ import {
   RootState,
   Meta,
   User,
-  token
+  Token
 } from '~/store/types'
 import firebase from '~/plugins/firebase'
 
@@ -63,6 +63,16 @@ export const actions: ActionTree<State, RootState> = {
 
   setToken({ commit }, payload: Token) {
     commit('mutateToken', payload)
+  },
+
+  async login({ commit }, payload: User) {
+    const res = await firebase
+      .auth()
+      .signInWithEmailAndPassword(payload.email, payload.password)
+    const token = await res.user?.getIdToken()
+    this.$cookies.set('jwt_token', token)
+    commit('mutateToken', token)
+    this.$router.push('/')
   }
 }
 
@@ -112,5 +122,8 @@ export const getters: GetterTree<State, RootState> = {
   },
   getSearchMeta(state) {
     return state.searchMeta
+  },
+  isLoggedIn(state) {
+    return !!state.token
   }
 }

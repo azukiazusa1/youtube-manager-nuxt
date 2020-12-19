@@ -24,7 +24,7 @@ export interface State {
   meta: Meta
   searchItems: Item[]
   searchMeta: Meta
-  Token: Token
+  token: Token
 }
 
 export interface Params {
