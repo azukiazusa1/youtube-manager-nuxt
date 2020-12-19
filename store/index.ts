@@ -6,7 +6,9 @@ export const state = (): State => ({
   items: [],
   relatedItems: [],
   item: undefined,
-  meta: {}
+  meta: {},
+  searchItems: [],
+  searchMeta: {}
 })
 
 export const actions: ActionTree<State, RootState> = {
@@ -29,6 +31,12 @@ export const actions: ActionTree<State, RootState> = {
     const client = createRequestClient(this.$axios)
     const res = await client.get(payload.uri)
     commit('mutateRelatedVideos', res)
+  },
+
+  async searchVideos({ commit }, payload: FetchPayload) {
+    const client = createRequestClient(this.$axios)
+    const res = await client.get(payload.uri, payload.params)
+    commit('mutateSearchVideos', res)
   }
 }
 
@@ -46,6 +54,13 @@ export const mutations: MutationTree<State> = {
 
   mutateRelatedVideos(state, payload: Meta) {
     state.relatedItems = payload.items || []
+  },
+
+  mutateSearchVideos(state, payload: Meta) {
+    state.searchItems = payload.items
+      ? state.searchItems.concat(payload.items)
+      : []
+    state.searchMeta = payload
   }
 }
 
@@ -61,5 +76,11 @@ export const getters: GetterTree<State, RootState> = {
   },
   getRelatedVideos(state) {
     return state.relatedItems
+  },
+  getSearchVideos(state) {
+    return state.searchItems
+  },
+  getSearchMeta(state) {
+    return state.searchMeta
   }
 }

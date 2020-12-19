@@ -22,6 +22,8 @@ export interface State {
   relatedItems: Item[]
   item?: Item
   meta: Meta
+  searchItems: Item[]
+  searchMeta: Meta
 }
 
 export interface Params {
