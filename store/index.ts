@@ -1,6 +1,14 @@
 import { ActionTree, MutationTree, GetterTree } from 'vuex/types'
 import { createRequestClient } from '~/store/request-client'
-import { FetchPayload, State, RootState, Meta } from '~/store/types'
+import {
+  FetchPayload,
+  State,
+  RootState,
+  Meta,
+  User,
+  token
+} from '~/store/types'
+import firebase from '~/plugins/firebase'
 
 export const state = (): State => ({
   items: [],
@@ -8,7 +16,8 @@ export const state = (): State => ({
   item: undefined,
   meta: {},
   searchItems: [],
-  searchMeta: {}
+  searchMeta: {},
+  token: ''
 })
 
 export const actions: ActionTree<State, RootState> = {
@@ -37,6 +46,23 @@ export const actions: ActionTree<State, RootState> = {
     const client = createRequestClient(this.$axios)
     const res = await client.get(payload.uri, payload.params)
     commit('mutateSearchVideos', res)
+  },
+
+  async signUp({ commit }, payload: User) {
+    await firebase
+      .auth()
+      .createUserWithEmailAndPassword(payload.email, payload.password)
+    const res = await firebase
+      .auth()
+      .signInWithEmailAndPassword(payload.email, payload.password)
+    const token = await res.user?.getIdToken()
+    this.$cookies.set('jwt_token', token)
+    commit('mutateToken', token)
+    this.$router.push('/')
+  },
+
+  setToken({ commit }, payload: Token) {
+    commit('mutateToken', payload)
   }
 }
 
@@ -61,6 +87,10 @@ export const mutations: MutationTree<State> = {
       ? state.searchItems.concat(payload.items)
       : []
     state.searchMeta = payload
+  },
+
+  mutateToken(state, payload) {
+    state.token = payload
   }
 }
 

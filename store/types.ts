@@ -24,6 +24,7 @@ export interface State {
   meta: Meta
   searchItems: Item[]
   searchMeta: Meta
+  Token: Token
 }
 
 export interface Params {
@@ -36,3 +37,10 @@ export interface FetchPayload {
 }
 
 export interface RootState {}
+
+export interface User {
+  email: string
+  password: string
+}
+
+export type Token = string

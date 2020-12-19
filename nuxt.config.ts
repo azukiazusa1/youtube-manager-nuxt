@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const config = {
   mode: 'universal',
   /*
@@ -27,7 +29,7 @@ const config = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vue-youtube'],
+  plugins: ['~/plugins/vue-youtube', '~/plugins/cookies-to-state'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -40,6 +42,8 @@ const config = {
    ** Nuxt.js modules
    */
   modules: [
+    '@nuxtjs/dotenv',
+    'cookie-universal-nuxt',
     // Doc: https://github.com/nuxt-community/modules/tree/master/packages/bulma
     '@nuxtjs/bulma',
     // Doc: https://axios.nuxtjs.org/usage
