@@ -73,6 +73,13 @@ export const actions: ActionTree<State, RootState> = {
     this.$cookies.set('jwt_token', token)
     commit('mutateToken', token)
     this.$router.push('/')
+  },
+
+  async logout({ commit }) {
+    await firebase.auth().signOut()
+    commit('mutateToken', null)
+    this.$cookies.remove('jwt_token')
+    this.$router.push('/')
   }
 }
 
