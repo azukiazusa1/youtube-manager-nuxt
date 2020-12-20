@@ -11,10 +11,12 @@ export interface Item {
     channelTitle: string
     description: string
   }
+  isFavorite: boolean
 }
 
 export interface Meta {
   items?: Item[]
+  isFavorite?: boolean
 }
 
 export interface State {

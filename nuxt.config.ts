@@ -25,11 +25,23 @@ const config = {
   /*
    ** Global CSS
    */
-  css: [],
+  css: [
+    '@fortawesome/fontawesome-free/css/all.css',
+    '@fortawesome/fontawesome-free/css/brands.css',
+    '@fortawesome/fontawesome-free/css/fontawesome.css',
+    '@fortawesome/fontawesome-free/css/regular.css',
+    '@fortawesome/fontawesome-free/css/solid.css',
+    '@fortawesome/fontawesome-free/css/svg-with-js.css',
+    '@fortawesome/fontawesome-free/css/v4-shims.css'
+  ],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vue-youtube', '~/plugins/cookies-to-state'],
+  plugins: [
+    '~/plugins/vue-youtube',
+    '~/plugins/cookies-to-state',
+    { src: '~/plugins/axios', mode: 'client' }
+  ],
   /*
    ** Nuxt.js dev-modules
    */

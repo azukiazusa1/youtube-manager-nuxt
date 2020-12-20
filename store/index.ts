@@ -33,6 +33,7 @@ export const actions: ActionTree<State, RootState> = {
     const params = {
       ...res.video_list
     }
+    params.isFavorite = res.is_favorite || false
     commit('mutateVideo', params)
   },
 
@@ -80,6 +81,12 @@ export const actions: ActionTree<State, RootState> = {
     commit('mutateToken', null)
     this.$cookies.remove('jwt_token')
     this.$router.push('/')
+  },
+
+  async toggleFavorite({ commit }, payload) {
+    const client = createRequestClient(this.$axios)
+    const res = await client.post(payload.uri)
+    commit('mutateToggleFavorite', res.is_favorite)
   }
 }
 
@@ -92,6 +99,7 @@ export const mutations: MutationTree<State> = {
   mutateVideo(state, payload: Meta) {
     const params =
       payload.items && payload.items.length > 0 ? payload.items[0] : undefined
+    params!.isFavorite = payload.isFavorite || false
     state.item = params
   },
 
@@ -108,6 +116,12 @@ export const mutations: MutationTree<State> = {
 
   mutateToken(state, payload) {
     state.token = payload
+  },
+
+  mutateToggleFavorite(state, payload: boolean) {
+    if (state.item) {
+      state.item.isFavorite = payload
+    }
   }
 }
 
