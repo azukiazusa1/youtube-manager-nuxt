@@ -22,6 +22,7 @@ export interface Meta {
 export interface State {
   items: Item[]
   relatedItems: Item[]
+  favoriteItems: []
   item?: Item
   meta: Meta
   searchItems: Item[]

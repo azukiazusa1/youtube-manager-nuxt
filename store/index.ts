@@ -13,6 +13,7 @@ import firebase from '~/plugins/firebase'
 export const state = (): State => ({
   items: [],
   relatedItems: [],
+  favoriteItems: [],
   item: undefined,
   meta: {},
   searchItems: [],
@@ -87,6 +88,12 @@ export const actions: ActionTree<State, RootState> = {
     const client = createRequestClient(this.$axios)
     const res = await client.post(payload.uri)
     commit('mutateToggleFavorite', res.is_favorite)
+  },
+
+  async fetchFavorite({ commit }, payload) {
+    const client = createRequestClient(this.$axios)
+    const res = await client.get(payload.uri)
+    commit('mutateFavoriteVideos', res)
   }
 }
 
@@ -122,6 +129,10 @@ export const mutations: MutationTree<State> = {
     if (state.item) {
       state.item.isFavorite = payload
     }
+  },
+
+  mutateFavoriteVideos(state, payload) {
+    state.favoriteItems = payload.items || []
   }
 }
 
@@ -146,5 +157,8 @@ export const getters: GetterTree<State, RootState> = {
   },
   isLoggedIn(state) {
     return !!state.token
+  },
+  getFavoriteVideos(state) {
+    return state.favoriteItems
   }
 }
