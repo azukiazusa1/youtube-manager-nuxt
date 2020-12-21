@@ -6,8 +6,22 @@
           <li>
             <nuxt-link to="/">ホーム</nuxt-link>
           </li>
+          <li v-if="isLoggedIn">
+            <nuxt-link to="favorite">お気に入り</nuxt-link>
+          </li>
         </ul>
       </aside>
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({
+  computed: {
+    isLoggedIn() {
+      return !!this.$store.getters.isLoggedIn
+    }
+  }
+})
+</script>
